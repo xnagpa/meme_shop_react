@@ -1,10 +1,7 @@
 /* eslint-disable */
 
-var path = require('path');
-
+const path = require('path');
 var webpack = require('webpack');
-
-var root = path.join(process.cwd(), 'src');
 
 module.exports = {
   entry: [
@@ -15,31 +12,34 @@ module.exports = {
   ],
 
   output: {
-    path: path.join(process.cwd(), 'dist'),
+    path: path.join(__dirname, 'dist'),
     publicPath: '/assets/',
     filename: 'bundle.js'
   },
 
+  resolve: {
+   modules: [
+     path.join(__dirname, 'src'),
+     "node_modules"
+   ]
+ },
+
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader']
       },
       {
         test: /\.css$/,
-        loaders: [
+        use: [
           'style-loader',
           'css-loader?importLoaders=1'
         ]
       },
-      { test: /\.(eot|png|ttf|svg|woff|woff2)$/, loader: 'url-loader'}
+      { test: /\.(eot|png|ttf|svg|woff|woff2)$/, use: 'url-loader'}
     ]
-  },
-
-  resolve: {
-    root: root
   },
 
   plugins: [
